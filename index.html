@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emmanuel John EJ's 7th Birthday Adventure</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="manifest" href="images/site.webmanifest">
+    <style>
+        :root {
+            --obsidian: #07080f;
+            --deep-cave: #0d1220;
+            --emerald: #28e07f;
+            --diamond: #63e6ff;
+            --gold: #ffd15a;
+            --redstone: #ff405e;
+            --glass: rgba(255, 255, 255, 0.11);
+            --glass-strong: rgba(255, 255, 255, 0.18);
+            --line: rgba(255, 255, 255, 0.24);
+            --text: #f7fbff;
+            --muted: rgba(247, 251, 255, 0.72);
+            --mx: 50vw;
+            --my: 50vh;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: var(--obsidian);
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: var(--text);
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: var(--obsidian);
+            background:
+                radial-gradient(circle at var(--mx) var(--my), rgba(99, 230, 255, 0.22), transparent 18rem),
+                radial-gradient(circle at 16% 12%, rgba(40, 224, 127, 0.22), transparent 28rem),
+                radial-gradient(circle at 78% 10%, rgba(255, 209, 90, 0.18), transparent 26rem),
+                linear-gradient(135deg, #05060b 0%, #101422 46%, #041a18 100%) var(--obsidian);
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        body::before {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+            background-size: 44px 44px;
+            mask-image: radial-gradient(circle at center, black 0%, transparent 82%);
+        }
+
+        body::after {
+            background:
+                linear-gradient(45deg, rgba(255, 255, 255, 0.035) 25%, transparent 25%) 0 0 / 30px 30px,
+                linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.035) 75%) 0 0 / 30px 30px;
+            opacity: 0.58;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .pixel-font {
+            font-family: "Press Start 2P", monospace;
+            line-height: 1.45;
+        }
+
+        .site-shell {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .cursor-orb {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(99, 230, 255, 0.86);
+            background: rgba(40, 224, 127, 0.36);
+            box-shadow: 0 0 22px rgba(99, 230, 255, 0.9), 0 0 42px rgba(40, 224, 127, 0.5);
+            transform: translate3d(calc(var(--mx) - 9px), calc(var(--my) - 9px), 0);
+            transition: width 180ms ease, height 180ms ease, border-color 180ms ease;
+            pointer-events: none;
+            z-index: 80;
+            image-rendering: pixelated;
+        }
+
+        .cursor-orb.is-active {
+            width: 30px;
+            height: 30px;
+            border-color: var(--gold);
+        }
+
+        .particle-layer,
+        .character-stage,
+        .spark-layer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle-layer {
+            z-index: -1;
+        }
+
+        .character-stage {
+            z-index: 35;
+        }
+
+        .spark-layer {
+            z-index: 70;
+        }
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--diamond);
+            box-shadow: 0 0 14px currentColor;
+            opacity: 0;
+            animation: drift var(--duration, 10s) linear infinite;
+            animation-delay: var(--delay, 0s);
+            color: var(--diamond);
+        }
+
+        .particle:nth-child(3n) {
+            color: var(--emerald);
+            background: var(--emerald);
+        }
+
+        .particle:nth-child(4n) {
+            color: var(--gold);
+            background: var(--gold);
+        }
+
+        @keyframes drift {
+            0% {
+                transform: translate3d(var(--start-x), 108vh, 0) rotate(0deg) scale(0.7);
+                opacity: 0;
+            }
+            12%,
+            82% {
+                opacity: 0.78;
+            }
+            100% {
+                transform: translate3d(calc(var(--start-x) + var(--sway)), -14vh, 0) rotate(180deg) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        .hero {
+            position: relative;
+            min-height: 92vh;
+            display: grid;
+            align-items: center;
+            padding: 28px clamp(18px, 5vw, 72px) 76px;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background:
+                linear-gradient(180deg, rgba(5, 6, 11, 0.15), rgba(5, 6, 11, 0.72)),
+                url("https://www.minecraft.net/content/dam/games/minecraft/key-art/CavesAndCliffs_1_Column-0_Main-Image_1920x1080.jpg") center / cover;
+            filter: saturate(1.15) contrast(1.02);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -2px;
+            height: 150px;
+            background: linear-gradient(180deg, transparent, var(--obsidian));
+            pointer-events: none;
+        }
+
+        .top-bar {
+            position: absolute;
+            top: 20px;
+            left: clamp(18px, 5vw, 72px);
+            right: clamp(18px, 5vw, 72px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            z-index: 4;
+        }
+
+        .edition-badge,
+        .age-chip,
+        .micro-chip {
+            border: 1px solid var(--line);
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 18px 50px rgba(0, 0, 0, 0.24);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+        .edition-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            color: var(--gold);
+            font-size: clamp(0.56rem, 1.2vw, 0.78rem);
+            text-transform: uppercase;
+            letter-spacing: 0;
+        }
+
+        .edition-badge::before {
+            content: "";
+            width: 12px;
+            height: 12px;
+            background: var(--emerald);
+            box-shadow: 0 0 18px rgba(40, 224, 127, 0.85);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-links a {
+            min-height: 42px;
+            display: inline-grid;
+            place-items: center;
+            padding: 0 14px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--muted);
+            font-size: 0.78rem;
+            font-weight: 800;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+            border-color: rgba(99, 230, 255, 0.54);
+            box-shadow: 0 0 22px rgba(99, 230, 255, 0.2);
+        }
+
+        .hero-grid {
+            width: min(1180px, 100%);
+            margin: 78px auto 0;
+            display: grid;
+            grid-template-columns: minmax(0, 1.06fr) minmax(280px, 0.94fr);
+            align-items: center;
+            gap: clamp(28px, 6vw, 80px);
+        }
+
+        .hero-copy {
+            position: relative;
+            z-index: 3;
+            min-width: 0;
+        }
+
+        .age-chip {
+            width: min(152px, 42vw);
+            aspect-ratio: 1;
+            display: grid;
+            place-items: center;
+            margin-bottom: 22px;
+            border-radius: 8px;
+            position: relative;
+            color: var(--gold);
+            transform: rotate(-2deg);
+        }
+
+        .age-chip::before {
+            content: "";
+            position: absolute;
+            inset: 10px;
+            border: 2px solid rgba(255, 209, 90, 0.5);
+            box-shadow: inset 0 0 22px rgba(255, 209, 90, 0.22);
+        }
+
+        .age-chip strong {
+            font-size: clamp(3.8rem, 9vw, 6.2rem);
+            text-shadow: 0 0 24px rgba(255, 209, 90, 0.7), 5px 5px 0 rgba(0, 0, 0, 0.44);
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: clamp(3.2rem, 11vw, 9rem);
+            line-height: 0.88;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            overflow-wrap: anywhere;
+            text-shadow:
+                0 0 30px rgba(99, 230, 255, 0.35),
+                8px 8px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        .hero h1 span {
+            display: block;
+            color: var(--emerald);
+        }
+
+        .nickname {
+            width: fit-content;
+            margin: 18px 0 24px;
+            padding: 10px 14px;
+            background: rgba(40, 224, 127, 0.16);
+            border: 1px solid rgba(40, 224, 127, 0.46);
+            color: var(--diamond);
+            box-shadow: 0 0 26px rgba(40, 224, 127, 0.23);
+            font-weight: 900;
+        }
+
+        .hero-lede {
+            width: min(680px, 100%);
+            margin: 0 0 28px;
+            color: rgba(255, 255, 255, 0.84);
+            font-size: clamp(1.05rem, 2.1vw, 1.42rem);
+            line-height: 1.65;
+            font-weight: 700;
+            word-break: break-word;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .game-button {
+            position: relative;
+            isolation: isolate;
+            min-height: 54px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 18px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 6px;
+            overflow: hidden;
+            background: linear-gradient(145deg, rgba(40, 224, 127, 0.88), rgba(6, 84, 58, 0.88));
+            color: #03120d;
+            box-shadow: 0 12px 0 rgba(0, 0, 0, 0.32), 0 26px 55px rgba(40, 224, 127, 0.22);
+            font-weight: 900;
+            text-transform: uppercase;
+            transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+        }
+
+        .game-button.secondary {
+            background: linear-gradient(145deg, rgba(99, 230, 255, 0.82), rgba(36, 76, 123, 0.88));
+            color: #03121a;
+            box-shadow: 0 12px 0 rgba(0, 0, 0, 0.32), 0 26px 55px rgba(99, 230, 255, 0.2);
+        }
+
+        .game-button::before {
+            content: "";
+            width: 18px;
+            height: 18px;
+            background: currentColor;
+            clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+            opacity: 0.68;
+        }
+
+        .game-button::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+            transform: translateX(-120%);
+            transition: transform 420ms ease;
+        }
+
+        .game-button:hover {
+            transform: translateY(-4px);
+            filter: brightness(1.08);
+        }
+
+        .game-button:hover::after {
+            transform: translateX(120%);
+        }
+
+        .game-button:active {
+            transform: translateY(6px);
+            box-shadow: 0 5px 0 rgba(0, 0, 0, 0.34), 0 18px 45px rgba(40, 224, 127, 0.18);
+        }
+
+        .hero-scene {
+            min-width: 0;
+            min-height: clamp(430px, 58vw, 660px);
+            position: relative;
+            display: grid;
+            place-items: center;
+            perspective: 900px;
+        }
+
+        .glass-orbit {
+            width: min(460px, 82vw);
+            aspect-ratio: 1;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.23);
+            border-radius: 8px;
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05)),
+                radial-gradient(circle at 35% 22%, rgba(99, 230, 255, 0.28), transparent 30%),
+                radial-gradient(circle at 72% 72%, rgba(40, 224, 127, 0.22), transparent 34%);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 35px 100px rgba(0, 0, 0, 0.52);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            transform: rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg));
+            transition: transform 120ms ease;
+        }
+
+        .glass-orbit::before,
+        .glass-orbit::after {
+            content: "";
+            position: absolute;
+            border: 2px solid rgba(255, 255, 255, 0.16);
+            border-radius: 8px;
+            inset: 26px;
+        }
+
+        .glass-orbit::after {
+            inset: 55px;
+            border-color: rgba(255, 209, 90, 0.26);
+            transform: rotate(45deg);
+        }
+
+        .hero-character {
+            position: absolute;
+            filter: drop-shadow(0 28px 24px rgba(0, 0, 0, 0.45));
+            user-select: none;
+            animation: floaty 4.8s ease-in-out infinite;
+            image-rendering: auto;
+        }
+
+        .hero-character.steve {
+            width: clamp(125px, 22vw, 220px);
+            left: 6%;
+            bottom: 9%;
+            animation-delay: -1.3s;
+        }
+
+        .hero-character.alex {
+            width: clamp(112px, 19vw, 190px);
+            right: 10%;
+            bottom: 12%;
+            animation-delay: -0.4s;
+        }
+
+        .hero-character.enderman {
+            width: clamp(88px, 14vw, 150px);
+            top: 7%;
+            right: 24%;
+            animation-delay: -2.2s;
+        }
+
+        .hero-character.creeper {
+            width: clamp(92px, 15vw, 155px);
+            top: 16%;
+            left: 20%;
+            animation-delay: -3.1s;
+        }
+
+        @keyframes floaty {
+            0%,
+            100% {
+                transform: translateY(0) rotate(-1deg);
+            }
+            50% {
+                transform: translateY(-18px) rotate(2deg);
+            }
+        }
+
+        .micro-chip {
+            position: absolute;
+            display: grid;
+            place-items: center;
+            width: 66px;
+            height: 66px;
+            border-radius: 6px;
+            font-size: 0.68rem;
+            color: var(--gold);
+            text-align: center;
+            text-shadow: 0 0 18px rgba(255, 209, 90, 0.65);
+            animation: pulse-block 2.6s ease-in-out infinite;
+        }
+
+        .micro-chip.one {
+            left: -14px;
+            top: 28%;
+        }
+
+        .micro-chip.two {
+            right: -18px;
+            bottom: 24%;
+            color: var(--diamond);
+            animation-delay: -1s;
+        }
+
+        @keyframes pulse-block {
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 24px rgba(99, 230, 255, 0.18);
+            }
+            50% {
+                transform: scale(1.08);
+                box-shadow: 0 0 38px rgba(255, 209, 90, 0.28);
+            }
+        }
+
+        main {
+            position: relative;
+            z-index: 2;
+        }
+
+        .section {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: clamp(54px, 8vw, 96px) 0;
+        }
+
+        .section-kicker {
+            margin: 0 0 12px;
+            color: var(--diamond);
+            font-size: clamp(0.64rem, 1.4vw, 0.82rem);
+            text-transform: uppercase;
+            text-shadow: 0 0 18px rgba(99, 230, 255, 0.5);
+        }
+
+        .section-title {
+            margin: 0 0 24px;
+            font-size: clamp(1.9rem, 5vw, 4.2rem);
+            line-height: 1;
+            text-transform: uppercase;
+            text-shadow: 5px 5px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .countdown-grid,
+        .detail-grid,
+        .pack-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .countdown-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .glass-card {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.065)),
+                linear-gradient(135deg, rgba(99, 230, 255, 0.08), rgba(40, 224, 127, 0.05));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 24px 70px rgba(0, 0, 0, 0.26);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+        }
+
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+                linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 18px 18px;
+            opacity: 0.28;
+        }
+
+        .countdown-card {
+            min-height: 158px;
+            display: grid;
+            place-items: center;
+            padding: 24px 10px;
+            text-align: center;
+        }
+
+        .count-number {
+            position: relative;
+            z-index: 1;
+            display: block;
+            margin-bottom: 8px;
+            color: var(--gold);
+            font-size: clamp(2.2rem, 5.5vw, 4.8rem);
+            line-height: 1;
+            text-shadow: 0 0 24px rgba(255, 209, 90, 0.65), 5px 5px 0 rgba(0, 0, 0, 0.38);
+        }
+
+        .count-label {
+            position: relative;
+            z-index: 1;
+            color: var(--muted);
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .event-intro {
+            width: min(780px, 100%);
+            margin: 0 0 24px;
+            color: var(--muted);
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            line-height: 1.7;
+            font-weight: 700;
+        }
+
+        .detail-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .detail-card {
+            min-height: 250px;
+            padding: 24px;
+        }
+
+        .icon-box {
+            width: 64px;
+            height: 64px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 26px rgba(99, 230, 255, 0.16);
+        }
+
+        .icon-box img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 12px rgba(99, 230, 255, 0.5));
+        }
+
+        .detail-card h3,
+        .pack-card h3 {
+            position: relative;
+            z-index: 1;
+            margin: 0 0 14px;
+            color: var(--gold);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .detail-card p,
+        .pack-card p {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            color: rgba(247, 251, 255, 0.82);
+            line-height: 1.55;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .detail-card p + p {
+            margin-top: 10px;
+        }
+
+        .pack-grid {
+            grid-template-columns: 1.12fr 0.88fr;
+            align-items: stretch;
+        }
+
+        .feature-wall {
+            min-height: 440px;
+            padding: clamp(24px, 4vw, 42px);
+            display: grid;
+            align-content: end;
+            background:
+                linear-gradient(180deg, rgba(5, 6, 11, 0.18), rgba(5, 6, 11, 0.68)),
+                url("images/04.JPG") center / cover;
+        }
+
+        .feature-wall .section-title {
+            position: relative;
+            z-index: 1;
+            width: min(620px, 100%);
+            margin-bottom: 14px;
+        }
+
+        .feature-wall p {
+            position: relative;
+            z-index: 1;
+            width: min(660px, 100%);
+            margin: 0;
+            color: rgba(255, 255, 255, 0.84);
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            line-height: 1.65;
+            font-weight: 800;
+        }
+
+        .pack-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .pack-card {
+            padding: 24px;
+        }
+
+        .pack-card::after {
+            content: "";
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            width: 18px;
+            height: 18px;
+            background: var(--emerald);
+            box-shadow: 0 0 22px rgba(40, 224, 127, 0.75);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            min-height: 180px;
+            aspect-ratio: 1;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 18px 55px rgba(0, 0, 0, 0.22);
+            transform: translateZ(0);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 500ms ease, filter 500ms ease;
+        }
+
+        .gallery-item::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: linear-gradient(180deg, transparent, rgba(5, 6, 11, 0.34));
+            pointer-events: none;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+            filter: saturate(1.18) contrast(1.04);
+        }
+
+        .footer {
+            display: grid;
+            place-items: center;
+            gap: 12px;
+            padding: 48px 18px 56px;
+            text-align: center;
+            color: var(--muted);
+            background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.34));
+        }
+
+        .footer strong {
+            color: var(--text);
+        }
+
+        .footer small {
+            max-width: 760px;
+            line-height: 1.6;
+            opacity: 0.72;
+        }
+
+        .pop-character {
+            position: absolute;
+            width: clamp(78px, 14vw, 150px);
+            filter: drop-shadow(0 20px 18px rgba(0, 0, 0, 0.45)) drop-shadow(0 0 16px rgba(99, 230, 255, 0.24));
+            animation: pop-in 3.4s ease-in-out forwards;
+        }
+
+        @keyframes pop-in {
+            0% {
+                opacity: 0;
+                transform: translateY(35px) scale(0.62) rotate(var(--rot, 0deg));
+            }
+            14%,
+            76% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(var(--rot, 0deg));
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-24px) scale(0.82) rotate(var(--rot, 0deg));
+            }
+        }
+
+        .spark {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--gold);
+            box-shadow: 0 0 18px rgba(255, 209, 90, 0.88);
+            animation: spark 700ms ease-out forwards;
+        }
+
+        @keyframes spark {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--dx), var(--dy)) scale(0);
+            }
+        }
+
+        @media (max-width: 940px) {
+            .top-bar {
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-grid,
+            .pack-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                min-height: auto;
+                padding-bottom: 44px;
+            }
+
+            .hero-scene {
+                min-height: 420px;
+                margin-top: 10px;
+            }
+
+            .countdown-grid,
+            .detail-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .detail-card:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 640px) {
+            .cursor-orb {
+                display: none;
+            }
+
+            .hero {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .hero-grid {
+                width: 100%;
+                max-width: calc(100vw - 48px);
+            }
+
+            .hero h1 {
+                font-size: clamp(2rem, 9vw, 2.25rem);
+                line-height: 1.02;
+            }
+
+            .hero-lede {
+                font-size: 1rem;
+                overflow-wrap: anywhere;
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .hero-actions {
+                display: grid;
+            }
+
+            .game-button {
+                width: 100%;
+            }
+
+            .hero-scene {
+                min-height: 300px;
+            }
+
+            .glass-orbit {
+                width: min(292px, 84vw);
+            }
+
+            .hero-character.steve {
+                width: clamp(88px, 25vw, 112px);
+            }
+
+            .hero-character.alex {
+                width: clamp(80px, 23vw, 102px);
+            }
+
+            .hero-character.enderman {
+                width: clamp(62px, 18vw, 82px);
+            }
+
+            .hero-character.creeper {
+                width: clamp(66px, 19vw, 88px);
+            }
+
+            .countdown-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 10px;
+            }
+
+            .countdown-card {
+                min-height: 126px;
+            }
+
+            .detail-grid,
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-card:last-child {
+                grid-column: auto;
+            }
+
+            .feature-wall {
+                min-height: 360px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .character-stage,
+            .particle-layer,
+            .spark-layer,
+            .cursor-orb {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-orb" aria-hidden="true"></div>
+    <div class="particle-layer" id="particleLayer" aria-hidden="true"></div>
+    <div class="character-stage" id="characterStage" aria-hidden="true"></div>
+    <div class="spark-layer" id="sparkLayer" aria-hidden="true"></div>
+
+    <div class="site-shell">
+        <header class="hero" id="top">
+            <div class="top-bar">
+                <div class="edition-badge pixel-font">Limited Edition Birthday Realm</div>
+                <nav class="nav-links" aria-label="Page sections">
+                    <a href="#countdown">Countdown</a>
+                    <a href="#details">Details</a>
+                    <a href="#gallery">Gallery</a>
+                </nav>
+            </div>
+
+            <div class="hero-grid">
+                <div class="hero-copy">
+                    <div class="age-chip pixel-font" aria-label="7th birthday"><strong>7</strong></div>
+                    <p class="section-kicker pixel-font">August 30, 2026</p>
+                    <h1 class="pixel-font">Emmanuel <span>John</span></h1>
+                    <div class="nickname pixel-font">Nickname unlocked: EJ</div>
+                    <p class="hero-lede">EJ's premium Level 7 Minecraft party is loaded with emerald glow, diamond sparkle, gold energy, and birthday crafting.</p>
+                    <div class="hero-actions">
+                        <a class="game-button" href="#details">View Quest Details</a>
+                        <a class="game-button secondary" href="#gallery">Enter Party Zone</a>
+                    </div>
+                </div>
+
+                <div class="hero-scene" id="heroScene" aria-hidden="true">
+                    <div class="glass-orbit">
+                        <span class="micro-chip one pixel-font">EJ</span>
+                        <span class="micro-chip two pixel-font">LVL 7</span>
+                        <img class="hero-character steve" src="images/character-steve.png" alt="">
+                        <img class="hero-character alex" src="images/character-alex.png" alt="">
+                        <img class="hero-character creeper" src="images/character-creeper.png" alt="">
+                        <img class="hero-character enderman" src="images/character-enderman.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="section" id="countdown">
+                <p class="section-kicker pixel-font">Party starts in</p>
+                <h2 class="section-title pixel-font">Countdown To Level 7</h2>
+                <div class="countdown-grid" id="countdownTimer">
+                    <div class="countdown-card glass-card">
+                        <span class="count-number pixel-font" id="days">00</span>
+                        <span class="count-label">Days</span>
+                    </div>
+                    <div class="countdown-card glass-card">
+                        <span class="count-number pixel-font" id="hours">00</span>
+                        <span class="count-label">Hours</span>
+                    </div>
+                    <div class="countdown-card glass-card">
+                        <span class="count-number pixel-font" id="minutes">00</span>
+                        <span class="count-label">Minutes</span>
+                    </div>
+                    <div class="countdown-card glass-card">
+                        <span class="count-number pixel-font" id="seconds">00</span>
+                        <span class="count-label">Seconds</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="details">
+                <p class="section-kicker pixel-font">Quest briefing</p>
+                <h2 class="section-title pixel-font">Event Details</h2>
+                <p class="event-intro">Join Emmanuel John, also known as EJ, for his 7th birthday celebration at Carcar Eco Farm. The adventure begins at sunset and continues onwards.</p>
+                <div class="detail-grid">
+                    <article class="detail-card glass-card">
+                        <div class="icon-box"><img src="images/minecraft-01.svg" alt=""></div>
+                        <h3 class="pixel-font">When</h3>
+                        <p>Sunday, August 30, 2026</p>
+                        <p>5:00 PM onwards</p>
+                    </article>
+                    <article class="detail-card glass-card">
+                        <div class="icon-box"><img src="images/minecraft-02.png" alt=""></div>
+                        <h3 class="pixel-font">Where</h3>
+                        <p>Carcar Eco Farm</p>
+                        <p>Carcar City</p>
+                    </article>
+                    <article class="detail-card glass-card">
+                        <div class="icon-box"><img src="images/minecraft-03.jpg" alt=""></div>
+                        <h3 class="pixel-font">Adventure</h3>
+                        <p>Craft, celebrate, explore, take photos, and unlock a night of birthday surprises for EJ.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="section" id="edition">
+                <div class="pack-grid">
+                    <article class="feature-wall glass-card">
+                        <p class="section-kicker pixel-font">Minecraft Limited Edition</p>
+                        <h2 class="section-title pixel-font">Obsidian Glass Party Pack</h2>
+                        <p>A darker, shinier birthday realm with glass panels, glowing blocks, diamond particles, gold accents, and surprise character pop-ins across the screen.</p>
+                    </article>
+                    <div class="pack-list">
+                        <article class="pack-card glass-card">
+                            <h3 class="pixel-font">Emerald Mode</h3>
+                            <p>EJ, may your day glow with love, laughter, and every little moment that makes you feel truly celebrated.</p>
+                        </article>
+                        <article class="pack-card glass-card">
+                            <h3 class="pixel-font">Diamond Motion</h3>
+                            <p>Every sparkle is for you, EJ - a reminder of how bright, joyful, and deeply loved you are today and always.</p>
+                        </article>
+                        <article class="pack-card glass-card">
+                            <h3 class="pixel-font">Mob Cameos</h3>
+                            <p>EJ, may the people who love you fill this adventure with warmth, fun, and memories you will always carry.</p>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="gallery">
+                <p class="section-kicker pixel-font">Memory inventory</p>
+                <h2 class="section-title pixel-font">Party Zone</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item"><img src="images/01.jpg" alt="Emmanuel John gallery photo 1"></div>
+                    <div class="gallery-item"><img src="images/02.jpg" alt="Emmanuel John gallery photo 2"></div>
+                    <div class="gallery-item"><img src="images/03.jpeg" alt="Emmanuel John gallery photo 3"></div>
+                    <div class="gallery-item"><img src="images/04.JPG" alt="Emmanuel John gallery photo 4"></div>
+                    <div class="gallery-item"><img src="images/05.jpeg" alt="Emmanuel John gallery photo 5"></div>
+                    <div class="gallery-item"><img src="images/06.jpeg" alt="Emmanuel John gallery photo 6"></div>
+                    <div class="gallery-item"><img src="images/07.jpeg" alt="Emmanuel John gallery photo 7"></div>
+                    <div class="gallery-item"><img src="images/08.jpg" alt="Emmanuel John gallery photo 8"></div>
+                    <div class="gallery-item"><img src="images/09.jpeg" alt="Emmanuel John gallery photo 9"></div>
+                    <div class="gallery-item"><img src="images/10.jpeg" alt="Emmanuel John gallery photo 10"></div>
+                    <div class="gallery-item"><img src="images/11.jpeg" alt="Emmanuel John gallery photo 11"></div>
+                    <div class="gallery-item"><img src="images/12.jpg" alt="Emmanuel John gallery photo 12"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <strong class="pixel-font">See you at EJ's 7th birthday adventure.</strong>
+            <span>Sunday, August 30, 2026 at Carcar Eco Farm, Carcar City. 5:00 PM onwards.</span>
+            <small>Character images: Xbox Mexico via Wikimedia Commons, CC BY 3.0. Minecraft is a trademark of Mojang Studios; this fan-made birthday invite is not affiliated with Mojang or Microsoft.</small>
+        </footer>
+    </div>
+
+    <script>
+        const root = document.documentElement;
+        const cursorOrb = document.querySelector(".cursor-orb");
+        const heroScene = document.getElementById("heroScene");
+        const particleLayer = document.getElementById("particleLayer");
+        const characterStage = document.getElementById("characterStage");
+        const sparkLayer = document.getElementById("sparkLayer");
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        function setPointer(x, y) {
+            root.style.setProperty("--mx", `${x}px`);
+            root.style.setProperty("--my", `${y}px`);
+        }
+
+        window.addEventListener("pointermove", (event) => {
+            setPointer(event.clientX, event.clientY);
+
+            if (!heroScene) return;
+            const rect = heroScene.getBoundingClientRect();
+            const sceneCenterX = rect.left + rect.width / 2;
+            const sceneCenterY = rect.top + rect.height / 2;
+            const tiltX = Math.max(-9, Math.min(9, (event.clientX - sceneCenterX) / rect.width * 18));
+            const tiltY = Math.max(-9, Math.min(9, (sceneCenterY - event.clientY) / rect.height * 18));
+
+            heroScene.style.setProperty("--tilt-x", `${tiltX}deg`);
+            heroScene.style.setProperty("--tilt-y", `${tiltY}deg`);
+        });
+
+        window.addEventListener("pointerdown", (event) => {
+            cursorOrb.classList.add("is-active");
+            createSparks(event.clientX, event.clientY);
+        });
+
+        window.addEventListener("pointerup", () => {
+            cursorOrb.classList.remove("is-active");
+        });
+
+        function buildParticles() {
+            if (reducedMotion) return;
+            const particleCount = window.innerWidth < 700 ? 28 : 52;
+            const fragment = document.createDocumentFragment();
+
+            for (let index = 0; index < particleCount; index += 1) {
+                const particle = document.createElement("span");
+                particle.className = "particle";
+                particle.style.setProperty("--start-x", `${Math.random() * 100}vw`);
+                particle.style.setProperty("--sway", `${(Math.random() * 34 - 17).toFixed(1)}vw`);
+                particle.style.setProperty("--duration", `${7 + Math.random() * 9}s`);
+                particle.style.setProperty("--delay", `${Math.random() * -10}s`);
+                fragment.appendChild(particle);
+            }
+
+            particleLayer.appendChild(fragment);
+        }
+
+        function createSparks(x, y) {
+            if (reducedMotion) return;
+            const colors = ["#ffd15a", "#63e6ff", "#28e07f", "#ff405e"];
+
+            for (let index = 0; index < 10; index += 1) {
+                const spark = document.createElement("span");
+                spark.className = "spark";
+                spark.style.left = `${x}px`;
+                spark.style.top = `${y}px`;
+                spark.style.background = colors[index % colors.length];
+                spark.style.setProperty("--dx", `${Math.random() * 120 - 60}px`);
+                spark.style.setProperty("--dy", `${Math.random() * 120 - 80}px`);
+                sparkLayer.appendChild(spark);
+                spark.addEventListener("animationend", () => spark.remove(), { once: true });
+            }
+        }
+
+        function spawnCharacter() {
+            if (reducedMotion) return;
+            const characters = [
+                { src: "images/character-steve.png", name: "Steve" },
+                { src: "images/character-alex.png", name: "Alex" },
+                { src: "images/character-creeper.png", name: "Creeper" },
+                { src: "images/character-enderman.png", name: "Enderman" }
+            ];
+            const character = characters[Math.floor(Math.random() * characters.length)];
+            const image = document.createElement("img");
+            const side = Math.random() > 0.5 ? "left" : "right";
+
+            image.className = "pop-character";
+            image.src = character.src;
+            image.alt = "";
+            image.style.top = `${18 + Math.random() * 58}vh`;
+            image.style[side] = `${-10 + Math.random() * 8}px`;
+            image.style.setProperty("--rot", `${side === "left" ? 6 : -6}deg`);
+            image.setAttribute("aria-label", `${character.name} popped into the birthday realm`);
+            characterStage.appendChild(image);
+            image.addEventListener("animationend", () => image.remove(), { once: true });
+        }
+
+        function updateCountdown() {
+            const targetDate = new Date("August 30, 2026 17:00:00 GMT+0800").getTime();
+            const now = Date.now();
+            const distance = targetDate - now;
+            const timer = document.getElementById("countdownTimer");
+
+            if (distance <= 0) {
+                timer.innerHTML = "<div class='countdown-card glass-card' style='grid-column: 1 / -1;'><span class='count-number pixel-font'>GO!</span><span class='count-label'>The adventure has begun</span></div>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").textContent = String(days).padStart(2, "0");
+            document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+            document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+            document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+        }
+
+        document.querySelectorAll(".game-button, .nav-links a, .glass-card").forEach((element) => {
+            element.addEventListener("pointerenter", () => cursorOrb.classList.add("is-active"));
+            element.addEventListener("pointerleave", () => cursorOrb.classList.remove("is-active"));
+        });
+
+        buildParticles();
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        if (!reducedMotion) {
+            setTimeout(spawnCharacter, 1200);
+            setInterval(spawnCharacter, 3600);
+        }
+    </script>
+</body>
+</html>
