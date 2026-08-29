@@ -1055,13 +1055,13 @@
             <section class="section" id="details">
                 <p class="section-kicker pixel-font">Quest briefing</p>
                 <h2 class="section-title pixel-font">Event Details</h2>
-                <p class="event-intro">Join Emmanuel John, also known as EJ, for his 7th birthday celebration at Carcar Eco Farm. The adventure begins at sunset and continues onwards.</p>
+                <p class="event-intro">Join Emmanuel John, also known as EJ, for his 7th birthday celebration at Carcar Eco Farm. The adventure begins in the morning and continues through the day.</p>
                 <div class="detail-grid">
                     <article class="detail-card glass-card">
                         <div class="icon-box"><img src="images/minecraft-01.svg" alt=""></div>
                         <h3 class="pixel-font">When</h3>
                         <p>Sunday, August 30, 2026</p>
-                        <p>5:00 PM onwards</p>
+                        <p>8:00 AM - 5:00 PM Manila Time</p>
                     </article>
                     <article class="detail-card glass-card">
                         <div class="icon-box"><img src="images/minecraft-02.png" alt=""></div>
@@ -1123,7 +1123,7 @@
 
         <footer class="footer">
             <strong class="pixel-font">See you at EJ's 7th birthday adventure.</strong>
-            <span>Sunday, August 30, 2026 at Carcar Eco Farm, Carcar City. 5:00 PM onwards.</span>
+            <span>Sunday, August 30, 2026 at Carcar Eco Farm, Carcar City. 8:00 AM - 5:00 PM Manila Time.</span>
             <small>Character images: Xbox Mexico via Wikimedia Commons, CC BY 3.0. Minecraft is a trademark of Mojang Studios; this fan-made birthday invite is not affiliated with Mojang or Microsoft.</small>
         </footer>
     </div>
@@ -1224,7 +1224,7 @@
         }
 
         function updateCountdown() {
-            const targetDate = new Date("August 30, 2026 17:00:00 GMT+0800").getTime();
+            const targetDate = new Date("August 30, 2026 08:00:00 GMT+0800").getTime();
             const now = Date.now();
             const distance = targetDate - now;
             const timer = document.getElementById("countdownTimer");
